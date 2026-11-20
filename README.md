@@ -14,7 +14,7 @@ people at the door with a scanner.
 The interesting part is the **Node.js backend**. It has to stay correct when many people grab the same seat
 at once, when a payment arrives late or twice, and when background jobs retry.
 
-**Live demo:** _coming soon_. Demo accounts use the password `demo1234`:
+**Try it locally in one command:** `docker compose up --build`, then open http://localhost:4000. Demo accounts use the password `demo1234`:
 
 | Account             | Role                                        |
 | ------------------- | ------------------------------------------- |
@@ -116,9 +116,10 @@ Docker build on every push.
 
 ## Deploying
 
-`render.yaml` is a Render Blueprint: a Docker web service plus a PostgreSQL database. Render generates the
-JWT and webhook secrets itself. The image works on any container host. Set `DATABASE_URL`, `JWT_SECRET` and
-`WEBHOOK_SECRET`.
+The Docker image runs on any container host. It needs `DATABASE_URL`, `JWT_SECRET` and `WEBHOOK_SECRET`, and
+it creates its tables on boot. `render.yaml` is a Render Blueprint for the app: Render generates both secrets,
+and `DATABASE_URL` points at a managed Postgres such as Neon. Use Neon's direct (non-pooled) connection
+string, because pg-boss needs a session connection.
 
 ## License
 
